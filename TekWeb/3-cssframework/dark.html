@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contoh Dark Mode Tailwind v4 CDN</title>
+  
+  <!-- Tailwind CSS v4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <!-- Konfigurasi custom variant dark mode untuk Tailwind v4 -->
+  <style type="text/tailwindcss">
+    @import "tailwindcss";
+    @custom-variant dark (&:where(.dark, .dark *));
+  </style>
+</head>
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300 min-h-screen flex flex-col items-center justify-center">
+
+  <div class="text-center p-6 max-w-md rounded-xl shadow-lg bg-gray-100 dark:bg-gray-800">
+    <h1 class="text-2xl font-bold mb-4">Tailwind v4 Dark Mode</h1>
+    <p class="mb-6 text-gray-600 dark:text-gray-300">Klik tombol di bawah ini untuk mengubah mode tampilan.</p>
+    
+    <!-- Tombol Toggle -->
+    <button onclick="toggleDarkMode()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+      Ubah Mode
+    </button>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      // Menambah atau menghapus class 'dark' pada tag <html>
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>
