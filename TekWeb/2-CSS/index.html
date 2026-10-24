@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Embed CSS (internal CSS) -->
+        <style>
+            body {
+                color: green;
+                background-color: beige;
+            }
+            .link_merah {
+                color : red;
+            }
+            #link-ke-3 {
+                color: violet;
+            }
+        </style>
+        <!-- External CSS -->
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="heading-biru-teks-hijau padding-sedang">
+            Ini heading
+        </div>
+        <div class="margin-atas-kecil teks-courier">
+            Ini teks courier
+        </div>
+        <div class="border-kotak">
+            ini kotak
+        </div>
+        Ini tulisan<br>
+        <a class="link_merah">Ini link</a><br>
+        <a class="link_merah">Ini link</a><br>
+        <!-- Inline CSS : style="-declarations-" -->
+        <a id="link-ke-3" style="background-color: gray;">Ini link</a>
+        <a style="margin:10px; border:2px solid blue; padding:10px;">LINK</a>
+        <a style="margin:10px; border:2px solid blue; padding:10px;">LINK</a>
+        <a style="margin:10px; border:2px solid blue; padding:10px;">LINK</a>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+.heading-biru-teks-hijau {
+    font-size: 24px;
+    background-color: aqua;
+    color: green;
+}
+
+.padding-sedang {
+    padding: 50px;
+}
+
+.margin-atas-kecil {
+    margin-top: 15px;
+}
+
+/* border dengan garis */
+.border-kotak {
+    border: 3px solid #19304B;
+    /* border-style: solid; */
+    width: 60px;
+    height: 60px;
+}
+
+.border-kotak:hover {
+    background-color:blue;
+    color:beige;
+}
+
+.teks-courier {
+    font-family: "Courier New", Courier, monospace;
+}
