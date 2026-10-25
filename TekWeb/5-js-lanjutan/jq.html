@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- CDN Tailwind -->
+
+        <!-- CDN Jquery 4.0.0 -->
+        <script src="https://code.jquery.com/jquery-4.0.0.js"></script>
+    </head>
+    <body>
+        <div></div>
+        <div></div>
+        <input type="text" id="input-angka">
+        <div id="output"></div>
+        <button id="tombol-display">display</button>
+        <button id="tombol-show">Show</button>
+        <button id="tombol-hide">Hide</button>
+        <button id="tombol-toggle">Toggle</button>
+
+        <br><br>
+        <input type="text" id="search"><br>
+        <table border="1" style="width:30%;">
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Barang</th>
+                </tr>
+            </thead>
+            <tbody id="table">
+                <tr><td>BRG1</td><td>Meja</td></tr>
+                <tr><td>BRG2</td><td>Kursi</td></tr>
+                <tr><td>BRG3</td><td>Speaker</td></tr>
+            </tbody>
+        </table>
+
+        <div>
+            <ul id="lainnya">
+                <li>Meja</li>
+                <li>Kursi</li>
+                <li>Speaker</li>
+            </ul>
+        </div>
+    </body>
+</html>
+<script>
+    $(document).ready(function(){
+        $("#tombol-display").click(function(){
+            // GET value dari id="input-angka"
+            var angka = $("#input-angka").val();
+            // Sama seperti JS berikut :
+            // var angka = document.getElementById('input-angka').value();
+
+            // Proses (javascript)
+            var hasil = '';
+            if (angka % 2 == 0) {
+                hasil = 'Genap';
+            } else {
+                hasil = 'Ganjil';
+            }
+
+            // Output
+            $('#output').html(hasil);
+            // $('#output').css('color', 'green');
+            // $('#output').css('fontSize', '30px');
+            // $('#output').css('fontWeight', 'bold');
+
+            $('#output').css({
+                "color" : "green",
+                "font-size" : "30px",
+                "font-weight" : "bold",
+            });
+        });
+        
+        $("#tombol-show").click(function(){
+            $("#output").show();
+        });
+
+        $("#tombol-hide").click(function(){
+            $("#output").hide();
+        });
+
+        $("#tombol-toggle").click(function(){
+            $("#output").toggle();
+            // if (output.style.display == 'hide')
+            // {
+                
+            // } else {
+
+            // }
+        });
+        
+        $("#search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+
+            $("#lainnya li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    })
+
+    // element
+    // .class
+    // #id
+    // $("#id").html("test dari JQuery"); // innerHTML
+    // $("#input-angka").val(); // value
+</script>

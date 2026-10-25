@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- CDN Tailwind -->
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <!-- CDN Jquery 4.0.0 -->
+        <script src="https://code.jquery.com/jquery-4.0.0.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="w-full bg-blue-500 text-white p-3 text-xl">
+                Chat
+                <input class="border border-black bg-white px-4 py-2 text-black rounded-md text-lg w-200" type="text" placeholder="Search chat" id="search">
+            </div>
+
+            <div class="h-100 p-0" id="body-pesan" style="overflow-y:scroll;">
+            </div>
+
+            <div class="w-full bg-blue-500">
+                <input class="border border-black bg-white px-4 py-2 text-black rounded-md text-lg w-200" type="text" id="chat">
+                <button class="border border-blue-800 bg-blue-600 text-lg py-1 px-3 text-white text-bold my-2 rounded" id="send">Send</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    $(document).ready(function(){
+        $("#chat").focus();
+        $("#send").click(function(){
+            // Input
+            var isichat = $("#chat").val();
+
+            // Output
+            if(isichat != '') {
+                $("#body-pesan").append('<div class="w-100 bg-blue-200 m-3 p-3 rounded">'+ isichat +'</div>');
+                $("#chat").val('');
+                $("#chat").focus();
+            }
+        });
+        
+        $("#search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#body-pesan div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
