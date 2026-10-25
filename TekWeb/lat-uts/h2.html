@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="judul">Selamat Datang</div>
+    <p class="paragraf">Ini paragraf pertama.</p>
+    <p class="paragraf">Ini paragraf kedua.</p>
+
+    <input type="text" id="inputTeks" placeholder="Masukkan teks baru" />
+    <button onclick="ubah()">Ubah Teks</button>
+
+    <h1 ondblclick="ubah()">kntl</h1>
+
+    <h2 ondblclick="ubahWarna(this)">Klik dua kali teks ini!</h2>
+
+    <script>
+      function ubah() {
+        const inputTeks = document.getElementById('inputTeks').value;
+        console.log(inputTeks);
+        alert('kntl')
+      }
+
+      function ubahWarna(elemen) {
+        elemen.style.color = 'red';
+      }
+      const judul = document.getElementById('judul');
+      const paragraf = document.querySelectorAll('.paragraf');
+      console.log(paragraf);
+      // document.getElementById('inputTeks').value = ' babi ';
+      // document.getElementById('inputTeks').value += ' kecap ';
+
+      document.getElementById('inputTeks').onkeydown = function () {
+        console.log(this.value);
+      };
+
+      document
+        .getElementById('inputTeks')
+        .setAttribute('placeholder', 'Masukkan nama');
+
+      document.querySelector('h2').onmouseover = function () {
+        this.style.color = 'red';
+      };
+    </script>
+  </body>
+</html>
