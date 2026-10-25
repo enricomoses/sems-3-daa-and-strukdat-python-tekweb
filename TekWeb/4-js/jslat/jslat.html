@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var list = [];
+        function display() {
+            document.getElementById('list').innerHTML = '';
+            list.forEach((value) => {
+                document.getElementById('list').innerHTML += '<div style="border:2px solid black; margin-right:8px; padding:20px; font-size:28px; display:inline-block;">' + value + '</div>';
+            });
+        }
+
+
+        function post() {
+            var angka = document.getElementById('angka').value;
+            list.push(angka);
+            display();
+            document.getElementById('angka').value = '';
+            document.getElementById('angka').focus();
+        }
+
+        function sort() {
+            list = list.sort((a, b) => a - b);
+            display();
+            document.getElementById('angka').focus();
+        }
+
+        function hapus() {
+            list = [];
+            display();
+            document.getElementById('angka').focus();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="list" style="margin-bottom:20px; height:70px;"></div>
+    <input id="angka" type="number" style="margin-bottom:10px; font-size:32px;"><br>
+    <button onclick="post()" style="margin-bottom:10px; font-size:28px; padding:10px;">Post</button>
+    <button onclick="sort()" style="margin-bottom:10px; font-size:28px; padding:10px;">Sort</button>
+    <button onclick="hapus()" style="margin-bottom:10px; font-size:28px; padding:10px;">Clear</button>
+</body>
+
+</html>

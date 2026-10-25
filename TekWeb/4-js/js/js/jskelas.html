@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Internal JS -->
+    <script>
+      // var variabel = 'ABC';
+      // var a;
+      // var b;
+      // let x = 5;
+      // const phi = 3.14;
+      // a = 15;
+      // b = 10;
+
+      // if(true) {
+      //     let x = 10;
+      //     alert('Di dalam if x = ' + x);
+      // }
+      // alert('hellooo! di luar if, x = ' + x);
+      function tampil() {
+        var input1 = document.getElementById('input1');
+        var tombol = document.getElementById('tombol');
+
+        // GET value (input user) dari id="input1"
+        // input1.value;
+
+        // GET isi (...) element <button id="tombol">....</button>
+        // tombol.innerHTML;
+        var non = document.getElementById('non').style.marginLeft;
+
+        // logic
+
+        // output
+        alert(non);
+      }
+
+      function ganjilGenap() {
+        // Definisi Object (dengan ID)
+        var input1 = document.getElementById('input1').value;
+        var output = document.getElementById('output');
+
+        if (isNaN(input1)) {
+          output.innerHTML =
+            '<div style="font-weight:bold; color:red;">Bukan Angka</div>';
+          output.innerHTML +=
+            '<div style="font-weight:bold; color:red;">Bukan Angka</div>';
+        } else {
+          if (input1 % 2 == 0) {
+            output.innerHTML = 'Genap';
+          } else {
+            output.innerHTML = 'Ganjil';
+          }
+        }
+      }
+    </script>
+    <!-- External JS -->
+    <!-- <script src="externalscript.js"></script> -->
+  </head>
+  <body>
+    <!-- event umum : onclick, ondblclick, onmouseover -->
+    <!-- event umumnya untuk input : onchange, onkeyup, onkeydown, onkeypress -->
+    <input type="text" id="input1" />
+    <div id="non" style="display: none; margin-left: 30px">
+      ini value hidden
+    </div>
+    <!-- <button id="tombol" onclick="tampil()">Alert!</button> -->
+    <button id="cek" onclick="ganjilGenap()">Cek Bilangan</button>
+    <div id="output">...</div>
+  </body>
+</html>
