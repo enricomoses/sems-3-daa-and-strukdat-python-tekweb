@@ -1,0 +1,290 @@
+====================================================================
+CATATAN KUNCI JAWABAN — untuk dosen
+Latihan UTS Teknologi Web · Membaca Nilai Formulir (DevConnect)
+====================================================================
+
+Kunci ini ditulis dengan JavaScript murni. Mahasiswa yang memakai
+jQuery tetap bernilai penuh selama hasil dan tipe datanya benar.
+
+Buka index.html langsung di browser. Tidak perlu server, tidak perlu
+internet kecuali untuk memuat TailwindCSS dari CDN.
+
+
+--------------------------------------------------------------------
+1. STATUS PENGUJIAN
+--------------------------------------------------------------------
+
+Diuji otomatis di browser sungguhan: 62 skenario, semuanya lulus,
+tanpa error di konsol. Mencakup seluruh A1-A4, B1-B3, C1, serta
+bonus D1 dan D3.
+
+Berbeda dari latihan API minggu lalu, latihan ini tidak memakai
+jaringan sama sekali, jadi pengujiannya berjalan apa adanya tanpa
+tiruan apa pun. Apa yang Anda lihat di kunci inilah yang diuji.
+
+
+--------------------------------------------------------------------
+2. PETA NOMOR SOAL KE KODE (app.js)
+--------------------------------------------------------------------
+
+A1  bacaForm()
+A2  tampilkanJSON()
+A3  renderNilaiRange()
+A4  renderRingkasan() + atauStrip()
+B1  validasi() + renderError()
+B2  renderHitungBio()
+B3  kirim() + fokuskan()
+C1  resetSemua()
+C2  pembagian peran: baca / validasi / gambar
+C3  kelas Tailwind di index.html
+D1  bacaFormData() berikut komentar dua perbedaannya
+D2  renderKekuatanSandi()
+D3  aturSisaMinat()
+
+
+--------------------------------------------------------------------
+3. PERILAKU TIAP JENIS INPUT YANG SUDAH DIVERIFIKASI
+--------------------------------------------------------------------
+
+Diperiksa langsung di browser saat soal ini disusun. Pakai daftar
+ini sebagai rujukan saat mengoreksi, jangan mengandalkan ingatan.
+
+  text .value                      "  Budi  "    string
+  range .value                     "7"           string  <- bukan angka
+  range .valueAsNumber             7             number
+  number .value                    "42"          string
+
+  checkbox TERCENTANG .value       "frontend"    string
+  checkbox TIDAK tercentang .value "backend"     string  <- tetap terisi!
+  checkbox tanpa atribut value     "on"          string
+  checkbox .checked                true          boolean <- yang benar
+
+  radio belum dipilih              null                  <- querySelector
+  radio ?.value kalau null         null
+
+  select tunggal .value            "wib"         string
+  select option .text              "WIB (Jakarta)"       <- beda dari value
+
+  select MULTIPLE .value           "js"          string  <- HANYA yang pertama
+  select MULTIPLE selectedOptions  ["js","go"]   array   <- yang benar
+  select multiple kosong .value    ""            string
+
+  textarea .value                  memuat "\n" apa adanya
+
+  FormData get("minat")            "frontend"            <- hanya yang pertama
+  FormData getAll("minat")         ["frontend"]          <- yang benar
+  FormData get("setuju") kosong    null                  <- bukan false
+  FormData get("level") kosong     null
+  FormData keys()                  hanya elemen ber-name <- id saja tidak cukup
+
+
+--------------------------------------------------------------------
+4. SKENARIO KOREKSI CEPAT
+--------------------------------------------------------------------
+
+Satu tombol memeriksa hampir seluruh Bagian A sekaligus. Isi
+formulir seperti ini, lalu tekan "Lihat JSON":
+
+  Nama        : Budi Santoso   (dengan spasi di depan dan belakang)
+  Kata sandi  : rahasia123     (dengan spasi di depan dan belakang)
+  Pengalaman  : geser ke 7
+  Level       : Menengah
+  Minat       : centang Frontend DAN Backend
+  Zona        : WITA
+  Stack       : pilih JavaScript DAN Go
+  Setuju      : centang
+
+JSON yang benar:
+
+  "nama": "Budi Santoso"        <- spasi hilang
+  "sandi": " rahasia123 "       <- spasi DIPERTAHANKAN
+  "pengalaman": 7               <- tanpa kutip
+  "level": "menengah"
+  "minat": ["frontend","backend"]
+  "zona": "wita"
+  "stack": ["js","go"]          <- DUA isi, ini penentu utama
+  "setuju": true                <- tanpa kutip
+
+Lima penanda kesalahan yang langsung terlihat:
+
+  "pengalaman": "7"       -> lupa mengubah ke angka          (potong A1)
+  "setuju": "on"          -> membaca .value, bukan .checked  (potong A1, berat)
+  "minat": "frontend"     -> tidak dikumpulkan jadi array    (potong A1)
+  "stack": "js"           -> memakai .value pada multiple    (potong A1, berat)
+  "sandi": "rahasia123"   -> men-trim kata sandi             (potong sedikit)
+
+Lalu dua pemeriksaan lagi:
+
+  Kosongkan Level, tekan "Lihat JSON"
+    -> "level": null, tanpa error merah di konsol.
+       TypeError di konsol = lupa ?. pada querySelector. Ini
+       mematikan seluruh script, jadi periksa konsol lebih dulu.
+
+  Tekan Reset
+    -> panel ringkasan, penghitung bio, angka slider, keluaran JSON,
+       dan pesan kesalahan HARUS ikut bersih. Yang hanya mengosongkan
+       isian formulir berarti mengandalkan reset bawaan HTML saja.
+
+
+--------------------------------------------------------------------
+5. KESALAHAN YANG PALING SERING MUNCUL
+--------------------------------------------------------------------
+
+[A1] "setuju": "on"
+     Membaca checkbox dengan .value. Nilainya sama saja dicentang
+     atau tidak, jadi validasi "wajib setuju" ikut rusak dan selalu
+     lolos. Ini kesalahan nomor satu pada soal ini.
+
+[A1] "stack": "js" padahal dua dipilih
+     Memakai .value pada select multiple. Tidak ada error, tidak ada
+     gejala apa pun di layar — datanya saja yang diam-diam salah.
+     Kesalahan nomor dua, dan yang paling sulit mereka temukan
+     sendiri. Pastikan Anda memilih DUA teknologi saat menguji;
+     dengan satu pilihan, kode yang salah pun terlihat benar.
+
+[A1] TypeError: Cannot read properties of null
+     Menulis querySelector('input[name="level"]:checked').value tanpa
+     penjaga. Script berhenti total di situ, sehingga fitur-fitur
+     setelahnya ikut tidak jalan. Periksa konsol SEBELUM
+     menyimpulkan fitur lain tidak dikerjakan — satu baris perbaikan
+     bisa memulihkan separuh nilai.
+
+[A1] "pengalaman": "7"
+     Lupa Number() atau valueAsNumber. Ringan, tapi tetap dipotong:
+     ini inti pelajaran "semua .value adalah string".
+
+[A1] Kata sandi ikut di-trim
+     Terlihat sepele, tapi di dunia nyata membuat pengguna tidak bisa
+     masuk. Potong sedikit saja, dan jadikan bahan diskusi.
+
+[A3] Angka slider baru berubah setelah mouse dilepas
+     Memakai event "change", bukan "input". Gejala paling mudah
+     dikenali: geser slider pelan-pelan, angkanya diam saja.
+
+[A4] Ringkasan menampilkan "wita", bukan "WITA (Makassar)"
+     Lupa bahwa value dan teks option berbeda. Sebagian mahasiswa
+     akan menghardcode daftar terjemahannya sendiri padahal objek
+     TEKS sudah disediakan di starter — itu tetap benar.
+
+[A4] Kolom kosong tampil "undefined" atau "null"
+     Tidak menyiapkan nilai pengganti. Ringan.
+
+[C1] Reset hanya mengosongkan isian
+     Mengandalkan tombol reset bawaan HTML. Panel ringkasan tetap
+     berisi data lama, penghitung bio tetap menunjukkan angka
+     sebelumnya. Inilah inti nilai C1.
+
+[B1] Validasi "setuju" tidak pernah menolak
+     Akibat lanjutan dari membaca .value pada checkbox. Kalau Anda
+     sudah memotong A1 untuk ini, jangan memotong B1 dua kali untuk
+     sebab yang sama.
+
+[catatan penilaian] Kolom "sandi2" saat KEDUANYA kosong
+     Kunci ini sengaja tidak memberi pesan, karena dua string kosong
+     memang sama, dan pesan di kolom "sandi" sudah menutupi kasus
+     itu. Mahasiswa yang memilih memberi pesan "wajib diisi" juga
+     BENAR. Terima keduanya.
+
+[integritas] Tanda pekerjaan dibuat AI pada soal ini:
+     - Memakai FormData di Bagian A padahal soal melarangnya. Model
+       bahasa hampir selalu menyarankan FormData untuk membaca
+       formulir, karena itu memang cara yang paling umum ditulis di
+       internet. Larangan di soal ini sekaligus berfungsi sebagai
+       penyaring.
+     - Memakai e.target.elements atau form.elements untuk mengakses
+       kolom, pola yang belum diajarkan sampai pertemuan ini.
+     - Validasi dengan regex yang jauh lebih rumit daripada yang
+       diminta soal.
+     Semua ini INDIKASI, bukan bukti. Tindak lanjutnya meminta
+     mereka menjelaskan satu fungsi pilihan Anda secara lisan.
+
+
+--------------------------------------------------------------------
+6. PADANAN JAVASCRIPT MURNI DAN JQUERY
+--------------------------------------------------------------------
+
+Untuk dipakai saat pembahasan. Keduanya benar.
+
+  text / password / textarea
+  --------------------------
+  el.value                            $("#f-nama").val()
+
+  range sebagai angka
+  -------------------
+  el.valueAsNumber                    Number($("#f-pengalaman").val())
+  Number(el.value)                    +$("#f-pengalaman").val()
+
+  checkbox tunggal
+  ----------------
+  el.checked                          $("#f-setuju").is(":checked")
+                                      $("#f-setuju").prop("checked")
+
+  checkbox grup
+  -------------
+  [...form.querySelectorAll(          $('input[name="minat"]:checked')
+    'input[name="minat"]:checked')]     .map(function(){ return this.value })
+    .map(c => c.value)                  .get()
+
+  radio
+  -----
+  form.querySelector(                 $('input[name="level"]:checked').val()
+    'input[name="level"]:checked')      // undefined kalau belum dipilih,
+    ?.value ?? null                     // BUKAN null — perhatikan bedanya
+
+  select tunggal
+  --------------
+  el.value                            $("#f-zona").val()
+
+  select multiple
+  ---------------
+  [...el.selectedOptions]             $("#f-stack").val()
+    .map(o => o.value)                  // jQuery mengembalikan ARRAY di sini,
+                                        // atau null kalau tak ada yang dipilih
+
+  teks option terpilih
+  --------------------
+  el.options[el.selectedIndex].text   $("#f-zona option:selected").text()
+
+  Dua catatan penting untuk pengguna jQuery:
+
+  1. $("#f-stack").val() pada select multiple mengembalikan ARRAY —
+     ini lebih ramah daripada .value milik DOM biasa. Tetapi kalau
+     tidak ada yang dipilih, hasilnya null, bukan array kosong.
+     Mahasiswa perlu menuliskan "?? []" atau "|| []".
+
+  2. $('input[name="level"]:checked').val() mengembalikan undefined
+     saat belum ada yang dipilih, bukan null. Jika soal meminta null,
+     mereka harus mengubahnya sendiri. Jangan potong nilai untuk
+     perbedaan ini selama validasinya tetap jalan — tapi bahas di
+     kelas, karena undefined dan null sering dikira sama.
+
+
+--------------------------------------------------------------------
+7. GAGASAN UNTUK DIBAHAS SETELAH LATIHAN
+--------------------------------------------------------------------
+
+Satu kalimat yang merangkum seluruh soal ini:
+
+  BROWSER MENYIMPAN SEMUA ISIAN FORMULIR SEBAGAI STRING. TUGAS ANDA
+  BUKAN SEKADAR MENGAMBILNYA, TETAPI MENGUBAHNYA MENJADI BENTUK
+  YANG BENAR SEBELUM MASUK KE LOGIKA PROGRAM.
+
+Tombol "Lihat JSON" dipasang di soal ini justru untuk membuat hal
+itu kasatmata. JSON memperlihatkan tipe data secara jujur: angka
+tanpa kutip, boolean tanpa kutip, array dengan kurung siku. Satu
+tampilan itu membuat kesalahan yang biasanya tersembunyi menjadi
+tidak bisa diabaikan.
+
+Perlu ditekankan: dari delapan jenis input, hanya SATU yang dibaca
+lewat properti selain .value, yaitu checkbox lewat .checked. Dan
+hanya SATU yang .value-nya menipu, yaitu select multiple yang
+mengembalikan pilihan pertama saja. Dua pengecualian ini yang
+menyita hampir seluruh waktu debugging mahasiswa hari ini.
+
+Jembatan ke materi berikutnya: ketika data ini nanti dikirim ke
+backend lewat fetch, tipe datanya harus sudah benar sebelum masuk
+JSON.stringify. Server yang menerima "pengalaman": "7" dan server
+yang menerima "pengalaman": 7 akan berperilaku berbeda, dan
+kesalahannya baru ketahuan jauh di sisi sana.
+
+====================================================================

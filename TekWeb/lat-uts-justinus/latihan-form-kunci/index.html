@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Akun DevConnect — Latihan UTS</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="app.js" defer></script>
+
+  <style>
+    /* Dipakai untuk menandai kolom yang bermasalah (B1). */
+    .salah { border-color: #dc2626 !important; }
+  </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800">
+
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-3">
+      <h1 class="text-lg font-bold">DevConnect</h1>
+      <p class="text-sm text-slate-500">Pendaftaran anggota komunitas</p>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6 grid gap-6 lg:grid-cols-[1fr_20rem] items-start">
+
+    <!-- ================= FORMULIR ================= -->
+    <form id="form-daftar" class="bg-white border border-slate-200 rounded-lg p-5 grid gap-4" novalidate>
+      <h2 class="font-bold">Daftar Akun</h2>
+
+      <!-- text -->
+      <label class="grid gap-1 text-sm">
+        <span class="font-medium">Nama lengkap <span class="text-red-600">*</span></span>
+        <input type="text" id="f-nama" name="nama" autocomplete="off"
+               class="border border-slate-300 rounded px-3 py-2">
+        <span id="err-nama" class="text-xs text-red-600"></span>
+      </label>
+
+      <!-- text -->
+      <label class="grid gap-1 text-sm">
+        <span class="font-medium">Username <span class="text-red-600">*</span></span>
+        <input type="text" id="f-username" name="username" autocomplete="off"
+               class="border border-slate-300 rounded px-3 py-2">
+        <span id="err-username" class="text-xs text-red-600"></span>
+      </label>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <!-- password -->
+        <label class="grid gap-1 text-sm">
+          <span class="font-medium">Kata sandi <span class="text-red-600">*</span></span>
+          <input type="password" id="f-sandi" name="sandi"
+                 class="border border-slate-300 rounded px-3 py-2">
+          <span id="err-sandi" class="text-xs text-red-600"></span>
+        </label>
+
+        <!-- password -->
+        <label class="grid gap-1 text-sm">
+          <span class="font-medium">Ulangi kata sandi <span class="text-red-600">*</span></span>
+          <input type="password" id="f-sandi2" name="sandi2"
+                 class="border border-slate-300 rounded px-3 py-2">
+          <span id="err-sandi2" class="text-xs text-red-600"></span>
+        </label>
+      </div>
+
+      <!-- range -->
+      <label class="grid gap-1 text-sm">
+        <span class="font-medium">
+          Tahun pengalaman — <span id="nilai-pengalaman" class="font-normal text-slate-500">?</span>
+        </span>
+        <input type="range" id="f-pengalaman" name="pengalaman" min="0" max="20" step="1" value="0"
+               class="w-full accent-slate-800">
+        <span class="flex justify-between text-xs text-slate-400"><span>0</span><span>20+</span></span>
+      </label>
+
+      <!-- radio -->
+      <fieldset class="grid gap-1 text-sm">
+        <legend class="font-medium mb-1">Level <span class="text-red-600">*</span></legend>
+        <div class="flex flex-wrap gap-4">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="level" value="junior" class="accent-slate-800"> Junior
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="level" value="menengah" class="accent-slate-800"> Menengah
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="level" value="senior" class="accent-slate-800"> Senior
+          </label>
+        </div>
+        <span id="err-level" class="text-xs text-red-600"></span>
+      </fieldset>
+
+      <!-- checkbox grup -->
+      <fieldset class="grid gap-1 text-sm">
+        <legend class="font-medium mb-1">Bidang minat <span class="text-red-600">*</span>
+          <span class="font-normal text-slate-400">(pilih 1–3)</span></legend>
+        <div class="flex flex-wrap gap-4">
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="minat" value="frontend" class="accent-slate-800"> Frontend
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="minat" value="backend" class="accent-slate-800"> Backend
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="minat" value="mobile" class="accent-slate-800"> Mobile
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="minat" value="data" class="accent-slate-800"> Data
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" name="minat" value="devops" class="accent-slate-800"> DevOps
+          </label>
+        </div>
+        <span id="err-minat" class="text-xs text-red-600"></span>
+      </fieldset>
+
+      <div class="grid sm:grid-cols-2 gap-4 items-start">
+        <!-- select tunggal -->
+        <label class="grid gap-1 text-sm">
+          <span class="font-medium">Zona waktu</span>
+          <select id="f-zona" name="zona" class="border border-slate-300 rounded px-3 py-2">
+            <option value="wib">WIB (Jakarta)</option>
+            <option value="wita">WITA (Makassar)</option>
+            <option value="wit">WIT (Jayapura)</option>
+          </select>
+        </label>
+
+        <!-- select multiple -->
+        <label class="grid gap-1 text-sm">
+          <span class="font-medium">Teknologi dikuasai <span class="text-red-600">*</span>
+            <span class="font-normal text-slate-400">(Ctrl/Cmd + klik)</span></span>
+          <select id="f-stack" name="stack" multiple size="6"
+                  class="border border-slate-300 rounded px-3 py-2">
+            <option value="js">JavaScript</option>
+            <option value="py">Python</option>
+            <option value="php">PHP</option>
+            <option value="go">Go</option>
+            <option value="java">Java</option>
+            <option value="dart">Dart</option>
+          </select>
+          <span id="err-stack" class="text-xs text-red-600"></span>
+        </label>
+      </div>
+
+      <!-- textarea -->
+      <label class="grid gap-1 text-sm">
+        <span class="font-medium flex justify-between">
+          <span>Bio singkat</span>
+          <span id="hitung-bio" class="font-normal text-slate-400">0/200</span>
+        </span>
+        <textarea id="f-bio" name="bio" rows="3"
+                  class="border border-slate-300 rounded px-3 py-2"></textarea>
+        <span id="err-bio" class="text-xs text-red-600"></span>
+      </label>
+
+      <!-- checkbox tunggal -->
+      <div class="grid gap-1 text-sm">
+        <label class="flex items-start gap-2">
+          <input type="checkbox" id="f-setuju" name="setuju" class="mt-1 accent-slate-800">
+          <span>Saya setuju dengan syarat dan ketentuan DevConnect
+            <span class="text-red-600">*</span></span>
+        </label>
+        <span id="err-setuju" class="text-xs text-red-600"></span>
+      </div>
+
+      <div class="flex gap-2 pt-2 border-t border-slate-100">
+        <button type="submit"
+                class="bg-slate-800 text-white text-sm rounded px-4 py-2 hover:bg-slate-700">
+          Daftar
+        </button>
+        <button type="button" id="btn-reset"
+                class="border border-slate-300 text-sm rounded px-4 py-2 hover:bg-slate-50">
+          Reset
+        </button>
+      </div>
+    </form>
+
+    <!-- ================= PANEL KANAN ================= -->
+    <aside class="grid gap-4">
+
+      <div class="bg-white border border-slate-200 rounded-lg p-4">
+        <h2 class="font-bold text-sm mb-3">Ringkasan</h2>
+        <!-- TODO (A4): isi panel ini dan perbarui setiap kali ada input berubah -->
+        <dl id="ringkasan" class="grid grid-cols-[5.5rem_1fr] gap-y-1 text-xs"></dl>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-lg p-4">
+        <button type="button" id="btn-json"
+                class="w-full border border-slate-300 text-sm rounded px-3 py-2 hover:bg-slate-50">
+          Lihat JSON
+        </button>
+        <!-- TODO (A2): tampilkan hasil JSON.stringify di sini -->
+        <pre id="json-output"
+             class="mt-3 text-[11px] bg-slate-900 text-slate-100 rounded p-3 overflow-x-auto
+                    whitespace-pre-wrap empty:hidden"></pre>
+      </div>
+
+      <!-- TODO (B3): tampilkan kartu ini setelah pendaftaran berhasil -->
+      <div id="hasil" class="hidden bg-green-50 border border-green-300 rounded-lg p-4 text-sm"></div>
+
+    </aside>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeri Produk Dinamis</title>
+    <script
+      src="https://code.jquery.com/jquery-4.0.0.js"
+      integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      .main-content {
+        max-width: 1200px;
+      }
+
+      @media (min-width: 993px) and (max-width: 1023px) {
+        .product-item {
+          width: 25%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="p-6 text-center text-white bg-blue-700">
+      <h1 class="text-3xl font-bold">Galeri Produk Kami</h1>
+    </header>
+
+    <main class="p-4 mx-auto border border-red-600 main-content">
+      <div id="filter-area" class="p-4 mb-4 bg-white border rounded-lg">
+        <div class="flex flex-col md:flex-row">
+          <div class="w-full p-2 md:w-1/2">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Cari produk..."
+              class="w-full p-2 border rounded"
+            />
+          </div>
+          <div class="w-full p-2 md:w-1/2">
+            <select
+              name=""
+              id="category-filter"
+              class="w-full p-2 border rounded"
+            ></select>
+          </div>
+        </div>
+      </div>
+      <div id="product-container" class="flex flex-wrap"></div>
+    </main>
+    <footer class="p-4 mt-6 text-center text-white bg-blue-500">
+      Enrico Moses C14250038
+    </footer>
+
+    <script>
+      $(document).ready(function () {
+        $('#product-container').html(
+          '<p class="w-full p-4 text-center">Sedang memuat data...</p>',
+        );
+
+        $.ajax({
+          url: 'https://fakestoreapi.com/products',
+          method: 'GET',
+          dataType: 'json',
+
+          success: function (data) {
+            tampilkanProduk(data);
+            buatKategori(data);
+            filterProduk();
+          },
+
+          error: function () {
+            $('#product-container').html(
+              '<p class="w-full p-4 text-center text-red-600">Gagal memuat produk. Silakan coba lagi.</p>',
+            );
+          },
+        });
+
+        function tampilkanProduk(data) {
+          $('#product-container').empty();
+
+          for (let i = 0; i < data.length; i++) {
+            const produk = data[i];
+
+            const hargaRupiah = Math.round(produk.price * 15000);
+
+            const harga = 'Rp ' + hargaRupiah.toLocaleString('id-ID');
+
+            const kolom = $(
+              '<div class="w-full p-2 border border-2 border-orange-500 product-item md:w-1/3 lg:w-1/4"></div>',
+            );
+
+            const kartu = $(
+              '<div class="h-full p-4 border shadow-lg rounded-xl"></div>',
+            );
+            const gambar = $(
+              `<img class="object-contain w-full h-48" src="${produk.image}" alt="${produk.title}">`,
+            );
+
+            const judul = $(
+              '<h2 class="mt-4 text-lg font-bold product-title"></h2>',
+            );
+
+            judul.text(produk.title);
+
+            const kategori = $(
+              '<p class="mt-2 text-gray-500 product-category"></p>',
+            );
+            kategori.text(produk.category);
+
+            const textHarga = $('<p class="mt-2 font-bold text-blue-700"></p>');
+
+            textHarga.text(harga);
+
+            kartu.append(gambar);
+            kartu.append(judul);
+            kartu.append(kategori);
+            kartu.append(textHarga);
+
+            kolom.append(kartu);
+
+            $('#product-container').append(kolom);
+          }
+        }
+
+        function buatKategori(data) {
+          let daftarKategori = [];
+
+          $('#category-filter').empty();
+
+          $('#category-filter').append(
+            '<option value="all">Semua Kategori</option>',
+          );
+
+          for (let i = 0; i < data.length; i++) {
+            const kategori = data[i].category;
+
+            if (daftarKategori.indexOf(kategori) == -1) {
+              daftarKategori.push(kategori);
+
+              const option = $('<option></option>');
+
+              option.val(kategori);
+              option.text(kategori);
+
+              $('#category-filter').append(option);
+            }
+          }
+        }
+
+        function filterProduk() {
+          const cari = $('#search-input').val().toLowerCase();
+
+          const kategoriDipilih = $('#category-filter').val();
+
+          $('.product-item').each(function () {
+            const judul = $(this).find('.product-title').text().toLowerCase();
+            const kategori = $(this).find('.product-category').text();
+
+            const cocokJudul = judul.indexOf(cari) !== -1;
+
+            const cocokKategori =
+              kategoriDipilih === 'all' || kategori === kategoriDipilih;
+
+            if (cocokJudul && cocokKategori) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        }
+
+        $('#search-input').on('keyup', function () {
+          filterProduk();
+        });
+
+        $('#category-filter').on('change', function () {
+          filterProduk();
+        });
+      });
+    </script>
+  </body>
+</html>
