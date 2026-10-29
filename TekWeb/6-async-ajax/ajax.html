@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function doXhr() {
+            const xhr = new XMLHttpRequest();
+            // xhr.open (<method>, <tujuan / url>)
+            xhr.open("GET", "https://jsonplaceholder.typicode.com/todos/2", true);
+            xhr.onload = function () {
+                if (xhr.status === 200) { // 200 = status request sukses <tindakan>
+                    const output = JSON.parse(xhr.responseText); // <output / respon> (bentuk objek/collection) di xhr.responseText
+                    // tampil bentuk alert
+                    // alert("Data berhasil diambil : " + output.title);
+                    // tampil di body html
+                    // document.getElementById("output").innerHTML = output.title;
+                    // Contoh kalau hasil respon untuk isi value attribute :
+                    // document.getElementById("link").attr('href', output.url);
+                    // Tampil jadi card
+                    document.getElementById("data-userId").innerHTML = output.userId;
+                    document.getElementById("data-id").innerHTML = output.id;
+                    document.getElementById("data-title").innerHTML = output.title;
+                    if(output.completed) {
+                        document.getElementById("data-completed").innerHTML = "<span style='color:green;'>COMPLETE</span>";
+                    } else {
+                        document.getElementById("data-completed").innerHTML = "<span style='color:red;'>NOT COMPLETE</span>";
+                    }
+                } else {
+                    alert("Terjadi kesalahan pada server. Status:", xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                alert("Koneksi jaringan gagal.");
+            };
+            xhr.send(); // perintah untuk jalankan request
+        }
+        
+        $(document).ready(function(){
+            $("#load-ajax").click(function(){
+                $.ajax({
+                    url: "https://jsonplaceholder.typicode.com/todos/4", // Alamat endpoint server
+                    type: "GET",                        // Metode HTTP
+                    dataType: "json",                   // Format data yang diharapkan
+                    success: function(response) {
+                        // Script jika sukses mendapatkan respon
+                        // document.getElementById....
+                        $("#data-userId").html(response.userId);
+                        $("#data-id").html(response.id);
+                        $("#data-title").html(response.title);
+                        if(response.completed) {
+                            $("#data-completed").html("<span style='color:green;'>COMPLETE</span>");
+                        } else { $("#data-completed").html("<span style='color:red;'>NOT COMPLETE</span>"); }
+                    },
+                    error: function(xhr, status, error) {
+                        // Dijalankan jika terjadi kesalahan
+                        alert("Terjadi kesalahan: " + error);
+                    }
+                });
+            });
+        
+            $("#select-page").change(function(){
+                const limit = 10;
+                var page = $("#select-page").val();
+                var start = (parseInt(page) - 1) * 10;
+                $.ajax({
+                    url: "https://jsonplaceholder.typicode.com/posts?_limit="+limit+"&_start="+start, // Alamat endpoint server
+                    type: "GET",                        // Metode HTTP
+                    dataType: "json",                   // Format data yang diharapkan
+                    success: function(response) {
+                        // Script jika sukses mendapatkan respon
+                        $("#tabel-tbody").html('');
+                        $.each(response, function(index, data) {
+                            $("#tabel-tbody").append("<tr><td>"+data.userId+"</td><td>"+data.id+"</td><td>"+data.title+"</td><td>"+data.body+"</td></tr>");
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Dijalankan jika terjadi kesalahan
+                        // reset tabel jadi kosong
+                        $("#tabel-tbody").html('');
+                        alert("Terjadi kesalahan: " + error);
+                    }
+                });
+            });
+        
+            $("#select-page").change();
+        });
+    </script>
+</head>
+<body>
+    <button onclick="doXhr()">Load data (with XHR)</button>
+    <button id="load-ajax">Load data (with $ajax)</button>
+    <!-- <a id="link">Link</a> -->
+    <div id="output">
+        <div style="border:2px solid black; padding: 10px; width:50%; margin-top:10px;">
+            <h3 id="data-userId"></h3>
+            <h4 id="data-id"></h4>
+            <h4 id="data-title"></h4>
+            <h4 id="data-completed"></h4>
+        </div>
+    </div>
+    <br>
+    <h3>Latihan</h3>
+    Pilih page :
+    <select id="select-page" style="width:100px;">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+    <table border="1" style="width:80%; margin-top:10px;">
+        <thead>
+            <tr>
+                <th>userId</th>
+                <th>id</th>
+                <th>title</th>
+                <th>body</th>
+            </tr>
+        </thead>
+        <tbody id="tabel-tbody"></tbody>
+    </table>
+</body>
+</html>
