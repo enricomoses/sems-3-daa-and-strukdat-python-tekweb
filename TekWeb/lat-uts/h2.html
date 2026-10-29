@@ -8,7 +8,7 @@
   <body>
     <div id="judul">Selamat Datang</div>
     <p class="paragraf">Ini paragraf pertama.</p>
-    <p class="paragraf">Ini paragraf kedua.</p>
+    <p class="paragraf"><a href="">pp</a></p>
 
     <input type="text" id="inputTeks" placeholder="Masukkan teks baru" />
     <button onclick="ubah()">Ubah Teks</button>
@@ -28,7 +28,7 @@
         elemen.style.color = 'red';
       }
       const judul = document.getElementById('judul');
-      const paragraf = document.querySelectorAll('.paragraf');
+      const paragraf = document.querySelector('.paragraf');
       console.log(paragraf);
       // document.getElementById('inputTeks').value = ' babi ';
       // document.getElementById('inputTeks').value += ' kecap ';

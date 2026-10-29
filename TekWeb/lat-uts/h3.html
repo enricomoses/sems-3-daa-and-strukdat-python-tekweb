@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-4.0.0.slim.js"
+      integrity="sha256-M+GjhMBfXikM1izMplICCTscIj5hzPCp6uDzaypxtgg="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <p class="text-red-500">Test</p>
+
+    <label for="nama" class="">Nama:</label>
+    <input type="text" id="nama" name="nama" placeholder="Masukkan nama" />
+    <button onclick="ubahNama()">Ubah Nama</button>
+
+    <h1 onclick="ubahNama()" class="text-xl font-bold">Ubah warna</h1>
+
+    <button id="tombol" class="text-red-900 p-2 rounded-xl bg-green-500 font-bold">tombol</button>
+
+    <p id="paraf">testt</p>
+
+    <script>
+      // const p = document.querySelector('p');
+      // p.style.color = 'red';
+      // p.textContent = '<a>Test</a>';
+      // console.log(p.innerHTML);
+
+      // function ubahNama() {
+      //   const inputNama = document.getElementById('nama').value;
+      //   p.textContent = inputNama;
+      // }
+
+      // document.querySelector('h1').addEventListener('click', () => {
+      //   document.querySelector('h1').style.color = 'blue';
+      // });
+
+      // const input = document.querySelector('input');
+
+      // input.addEventListener('keyup', (e) => {
+      //   document.querySelector('p').textContent = e.target.value;
+      //   console.log(e);
+      // });
+
+      // const tambah = (a) => a + 2;
+
+      // console.log(tambah(2));
+
+      $(document).ready(function () {
+        $('input').on('click', () => {
+          $('p').text($('input').val());
+        });
+
+        $('#tombol').click(() => {
+          $('#paraf').toggle();
+        });
+      });
+    </script>
+  </body>
+</html>
