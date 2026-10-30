@@ -1,0 +1,49 @@
+<!-- HTML TABEL, LIST, FORM -->
+<table border="1">
+  <tr>
+    <th>Nama</th>
+    <th>Nilai</th>
+  </tr>
+  <tr>
+    <td>Andi</td>
+    <td>90</td>
+  </tr>
+</table>
+<ul>
+  <li>Item A</li>
+  <li>Item B</li>
+</ul>
+<ol>
+  <li>Pertama</li>
+  <li>Kedua</li>
+</ol>
+<form>
+  <input type="text" placeholder="Nama" required />
+  <input type="number" min="0" max="100" />
+  <input type="radio" name="gender" value="L" />L
+  <input type="checkbox" name="setuju" />Setuju
+  <textarea></textarea>
+  <button type="submit">Kirim</button>
+</form>
+<a href="https://example.com" target="_blank">Link</a>
+
+<!-- TAILWIND FLEX/BASIS BERSARANG -->
+<div class="flex flex-row flex-wrap">
+  <div class="bg-blue-300 basis-1/3">Kiri</div>
+  <div class="bg-blue-500 basis-2/3">
+    <div class="flex">
+      <div class="basis-1/2">A</div>
+      <div class="basis-1/2">B</div>
+    </div>
+  </div>
+</div>
+<!-- Tambahan utility:
+justify-center = horizontal pada flex-row
+items-center = vertikal pada flex-row
+basis-1/4 = 25%, basis-3/4 = 75%
+hover:bg-red-500 = warna saat hover
+focus:border-blue-500 = border saat fokus
+active:bg-blue-800 = saat ditekan
+hidden = display:none
+block = display:block -->
+
